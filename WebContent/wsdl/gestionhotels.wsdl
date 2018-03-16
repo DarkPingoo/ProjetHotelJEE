@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="GestionHotelsService" targetNamespace="http://sw.eseo/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://sw.eseo/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+  <import namespace="http://sw.eseo/" schemaLocation="gestionhotels_schema1.xsd"/>
+</schema>
+  </wsdl:types>
+  <wsdl:message name="annulerChambre">
+    <wsdl:part name="parameters" element="tns:annulerChambre">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="payerChambreResponse">
+    <wsdl:part name="parameters" element="tns:payerChambreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reserverChambre">
+    <wsdl:part name="parameters" element="tns:reserverChambre">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="trouverChambre">
+    <wsdl:part name="parameters" element="tns:trouverChambre">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="reserverChambreResponse">
+    <wsdl:part name="parameters" element="tns:reserverChambreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="trouverChambreResponse">
+    <wsdl:part name="parameters" element="tns:trouverChambreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="payerChambre">
+    <wsdl:part name="parameters" element="tns:payerChambre">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="annulerChambreResponse">
+    <wsdl:part name="parameters" element="tns:annulerChambreResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="GestionHotelsSEI">
+    <wsdl:operation name="payerChambre">
+      <wsdl:input name="payerChambre" message="tns:payerChambre">
+    </wsdl:input>
+      <wsdl:output name="payerChambreResponse" message="tns:payerChambreResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="annulerChambre">
+      <wsdl:input name="annulerChambre" message="tns:annulerChambre">
+    </wsdl:input>
+      <wsdl:output name="annulerChambreResponse" message="tns:annulerChambreResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reserverChambre">
+      <wsdl:input name="reserverChambre" message="tns:reserverChambre">
+    </wsdl:input>
+      <wsdl:output name="reserverChambreResponse" message="tns:reserverChambreResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="trouverChambre">
+      <wsdl:input name="trouverChambre" message="tns:trouverChambre">
+    </wsdl:input>
+      <wsdl:output name="trouverChambreResponse" message="tns:trouverChambreResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="GestionHotelsServiceSoapBinding" type="tns:GestionHotelsSEI">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="payerChambre">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="payerChambre">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="payerChambreResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="annulerChambre">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="annulerChambre">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="annulerChambreResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="reserverChambre">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="reserverChambre">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="reserverChambreResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="trouverChambre">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="trouverChambre">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="trouverChambreResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="GestionHotelsService">
+    <wsdl:port name="GestionHotelsPort" binding="tns:GestionHotelsServiceSoapBinding">
+      <soap:address location="http://localhost:8085/projetHotel/services/GestionHotelsPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
