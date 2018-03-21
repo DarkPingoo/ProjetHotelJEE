@@ -9,7 +9,7 @@ public interface GestionHotelsSEI {
 
 	int reserverChambre(ReservationChambre reservationChambre);
 
-	int payerChambre(int x, int y);
+	String payerChambre(int idReservation);
 
 	boolean annulerChambre(int idReservation);
 
