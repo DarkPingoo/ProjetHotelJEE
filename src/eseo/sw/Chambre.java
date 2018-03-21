@@ -1,19 +1,29 @@
 package eseo.sw;
 
 public class Chambre {
-
+	
 	private int idChambre;
 	private String typeChambre;
 	private int prix;
 	private int nbLits;
+	private int etage;
 
-	public Chambre(int idChambre, String typeChambre, int prix, int nbLits) {
+	public Chambre(int idChambre, String typeChambre, int prix, int nbLits, int etage) {
 		this.idChambre = idChambre;
 		this.typeChambre = typeChambre;
 		this.prix = prix;
 		this.nbLits = nbLits;
+		this.etage = etage;
 	}
 	
+	public int getEtage() {
+		return etage;
+	}
+
+	public void setEtage(int etage) {
+		this.etage = etage;
+	}
+
 	public int getIdChambre() {
 		return this.idChambre;
 	}
@@ -45,4 +55,13 @@ public class Chambre {
 	public void setNbLits(int nbLits) {
 		this.nbLits = nbLits;
 	}
+
+	public void ecrire() {
+		System.out.println("Chambre("+this.getIdChambre()+","+
+							this.getTypeChambre()+","+
+							this.getNbLits()+","+
+							this.getPrix()+","+
+							this.getEtage()+")");
+	}
 }
+
