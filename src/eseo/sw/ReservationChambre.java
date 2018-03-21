@@ -22,6 +22,10 @@ public class ReservationChambre {
 		this.nbPlaces = nbPlaces;
 	}
 	
+	public ReservationChambre() {
+		super();
+	}
+	
 	public int getIdChambre() {
 		return this.idChambre;
 	}

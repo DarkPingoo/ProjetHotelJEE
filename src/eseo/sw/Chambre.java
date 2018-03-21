@@ -15,6 +15,9 @@ public class Chambre {
 		this.nbLits = nbLits;
 		this.etage = etage;
 	}
+	public Chambre() {
+		super();
+	}
 	
 	public int getEtage() {
 		return etage;
