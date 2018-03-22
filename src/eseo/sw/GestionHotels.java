@@ -12,17 +12,37 @@ import javax.jws.WebService;
 public class GestionHotels implements GestionHotelsSEI{
 	
 	private Connection connexion = null;
+	private Statement stmt = null;
+	private ResultSet result;
+	
+	public void init() {
+		try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			String url = "jdbc:mysql://localhost/Hotel?user=jeanseb&password=network";
+			connexion = DriverManager.getConnection(url);
+			stmt = connexion.createStatement();
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void closeConnection() {
+		try {
+			result.close();
+			stmt.close();
+			connexion.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	public Chambre[] trouverChambre(String typeChambre) {
 		Chambre[] chambres = new Chambre[50];
 		int i = 0;
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mysql://localhost/Hotel?user=jeanseb&password=network";
-			connexion = DriverManager.getConnection(url);
-			Statement stmt = connexion.createStatement();
 			stmt.executeQuery("select * from CHAMBRE where typeChambre = '"+typeChambre +"'");
-			ResultSet result = stmt.getResultSet();
+			result = stmt.getResultSet();
 			while (result.next()) {
 				Chambre chambre = new Chambre(result.getInt("idChambre"),
 				result.getString("typeChambre"),
@@ -33,9 +53,9 @@ public class GestionHotels implements GestionHotelsSEI{
 				chambres[i] = chambre;
 				i++;
 			}
-			result.close();
+			/*result.close();
 			stmt.close();
-			connexion.close();
+			connexion.close();*/
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -50,22 +70,18 @@ public class GestionHotels implements GestionHotelsSEI{
 	public String payerChambre(int idReservation) {
 		String message = "";
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mysql://localhost/Hotel?user=jeanseb&password=network";
-			connexion = DriverManager.getConnection(url);
-			Statement stmt = connexion.createStatement();
 			stmt.executeQuery("select booleenPaiementEffectue from RESERVATION where idReservation = '"+idReservation+"'");
-			ResultSet result = stmt.getResultSet();
+			result = stmt.getResultSet();
 			result.next();
 			if(result.getInt("booleenPaiementEffectue")==1) {
-				message = "La chambre a déja été payé !";
+				message = "La chambre a dÃ©ja Ã©tÃ© payÃ© !";
 			} else {
 				stmt.executeUpdate("update RESERVATION set booleenPaiementEffectue=1 where idReservation='"+idReservation+"'");
-				message = "La chambre a bien été payé !";
+				message = "La chambre a bien Ã©tÃ© payÃ© !";
 			}
-			result.close();
+			/*result.close();
 			stmt.close();
-			connexion.close();
+			connexion.close();*/
 	} catch (SQLException e) {
 		e.printStackTrace();
 	}
@@ -75,20 +91,16 @@ public class GestionHotels implements GestionHotelsSEI{
 	public boolean annulerChambre(int idReservation) {
 		boolean feedback = false;
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mysql://localhost/Hotel?user=jeanseb&password=network";
-			connexion = DriverManager.getConnection(url);
-			Statement stmt = connexion.createStatement();
 			int suppression = stmt.executeUpdate("delete from RESERVATION where idReservation='"+idReservation+"'");
 			if(suppression == 1) {
-				System.out.println("La réservation a bien été annulé !");
+				System.out.println("La rÃ©servation a bien Ã©tÃ© annulÃ© !");
 				feedback = true;
 			} else {
-				System.out.println("La réservation n'a pas été trouvée !");
+				System.out.println("La rÃ©servation n'a pas Ã©tÃ© trouvÃ©e !");
 				feedback = false;
 			}
-			stmt.close();
-			connexion.close();
+			/*stmt.close();
+			connexion.close();*/
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.XmlType;
 public class PayerChambreResponse {
 
     @XmlElement(name = "return")
-    private java.lang.String _return;
+    private String _return;
 
-    public java.lang.String getReturn() {
+    public String getReturn() {
         return this._return;
     }
 
-    public void setReturn(java.lang.String new_return)  {
+    public void setReturn(String new_return)  {
         this._return = new_return;
     }
 
