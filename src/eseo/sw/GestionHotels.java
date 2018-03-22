@@ -14,17 +14,6 @@ public class GestionHotels implements GestionHotelsSEI{
 	private Connection connexion = null;
 	private Statement stmt = null;
 	private ResultSet result;
-
-	private void closeConnection() {
-		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mysql://localhost/Hotel?user=quentin&password=network";
-			connexion = DriverManager.getConnection(url);
-			stmt = connexion.createStatement();
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void closeConnection() {
 		try {
@@ -52,10 +41,6 @@ public class GestionHotels implements GestionHotelsSEI{
 		Chambre[] chambres = new Chambre[50];
 		int i = 0;
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mysql://localhost/Hotel?user=quentin&password=network";
-			connexion = DriverManager.getConnection(url);
-			Statement stmt = connexion.createStatement();
 			stmt.executeQuery("select * from CHAMBRE where typeChambre = '"+typeChambre +"'");
 			result = stmt.getResultSet();
 			while (result.next()) {
@@ -77,12 +62,10 @@ public class GestionHotels implements GestionHotelsSEI{
 	}
 
 	public int reserverChambre(ReservationChambre reservationChambre) {
+		initConnection();
 		ReservationChambre[] reservations = new ReservationChambre[50];
 		int i = 0;
 		try {
-			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mysql://localhost/Hotel?user=quentin&password=network";
-			connexion = DriverManager.getConnection(url);
 			Statement stmt = connexion.createStatement();
 			stmt.executeQuery("select * from RESERVATION");
 			ResultSet result = stmt.getResultSet();
@@ -96,8 +79,7 @@ public class GestionHotels implements GestionHotelsSEI{
 																		result.getBoolean("booleenPaiementEffectue"));
 				reservations[i] = reservation;
 				i++;
-				reservation.ecrire();
-				
+				reservation.ecrire();	
 			}
 			reservationChambre.ecrire();
 			for(int y = 0; y < reservations.length; y++) {
@@ -116,13 +98,10 @@ public class GestionHotels implements GestionHotelsSEI{
 					System.out.println("Cette chambre n'est pas disponible");
 				}
 			}
-			result.close();
-			stmt.close();
-			connexion.close();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		closeConnection();
 		return reservationChambre.getIdChambre();
 	}
 
