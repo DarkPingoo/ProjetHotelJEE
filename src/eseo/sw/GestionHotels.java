@@ -41,6 +41,10 @@ public class GestionHotels implements GestionHotelsSEI{
 		Chambre[] chambres = new Chambre[50];
 		int i = 0;
 		try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			String url = "jdbc:mysql://localhost/Hotel?user=quentin&password=network";
+			connexion = DriverManager.getConnection(url);
+			Statement stmt = connexion.createStatement();
 			stmt.executeQuery("select * from CHAMBRE where typeChambre = '"+typeChambre +"'");
 			result = stmt.getResultSet();
 			while (result.next()) {

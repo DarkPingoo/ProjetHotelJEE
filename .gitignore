@@ -4,8 +4,11 @@
 \.settings/
 
 \.idea/
+<<<<<<< Updated upstream
 
 out/
 
 build/
+=======
+>>>>>>> Stashed changes
 /bin/
