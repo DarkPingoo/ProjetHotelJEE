@@ -1,5 +1,7 @@
 package eseo.sw;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReservationChambre {
@@ -12,7 +14,7 @@ public class ReservationChambre {
 	private int nbPlaces;
 	private boolean paiementEffectue;
 
-	public ReservationChambre(int idReservation, int idChambre, int idClient,Date dateDebut, Date dateFin, boolean paiementEffectue, int nbPlaces) {
+	public ReservationChambre(int idReservation, int idChambre, int idClient,Date dateDebut, Date dateFin,int nbPlaces, boolean paiementEffectue) {
 		this.idReservation = idReservation;
 		this.idChambre = idChambre;
 		this.idClient = idClient;
@@ -80,5 +82,28 @@ public class ReservationChambre {
 
 	public void setNbPlaces(int nbPlaces) {
 		this.nbPlaces = nbPlaces;
+	}
+	public void ecrire() {
+		System.out.println("Reservation("+this.getIdReservation()+","+
+							this.getIdChambre()+","+
+							this.getIdClient()+","+
+							this.getDateDebut()+","+
+							this.getDateFin()+","+
+							this.getNbPlaces()+","+
+							this.getPaiementEffectue()+","+")");
+	}
+	
+	public static String dateToString(Date date) throws ParseException {
+		String oldstring = "2011-01-18 00:00:00.0";
+		date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
+		String newString = new SimpleDateFormat("yyyy-MM-dd").format(date);
+		System.out.println(newString); // 2011-01-18
+		return newString;
+	}
+	public static Date stringToDate(String string) throws ParseException {
+		string  = "2018-10-15";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Date date1 = sdf.parse(string);
+		return date1;
 	}
 }
