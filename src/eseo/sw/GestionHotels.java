@@ -18,7 +18,7 @@ public class GestionHotels implements GestionHotelsSEI{
 	public void init() {
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String url = "jdbc:mysql://localhost/Hotel?user=jeanseb&password=network";
+			String url = "jdbc:mysql://localhost/Hotel?user=quentin&password=network";
 			connexion = DriverManager.getConnection(url);
 			stmt = connexion.createStatement();
 		} catch(SQLException e) {
@@ -64,7 +64,53 @@ public class GestionHotels implements GestionHotelsSEI{
 	}
 	
 	public int reserverChambre(ReservationChambre reservationChambre) {
-		return 0;
+		ReservationChambre[] reservations = new ReservationChambre[50];
+		int i = 0;
+		try {
+			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+			String url = "jdbc:mysql://localhost/Hotel?user=quentin&password=network";
+			connexion = DriverManager.getConnection(url);
+			Statement stmt = connexion.createStatement();
+			stmt.executeQuery("select * from RESERVATION");
+			ResultSet result = stmt.getResultSet();
+			while (result.next()) {
+				ReservationChambre reservation = new ReservationChambre(result.getInt("idReservation"),
+																		result.getInt("idChambre"),
+																		result.getInt("idClient"),
+																		result.getDate("dateDebut"),
+																		result.getDate("dateFin"),
+																		result.getInt("nombrePlaces"),
+																		result.getBoolean("booleenPaiementEffectue"));
+				reservations[i] = reservation;
+				i++;
+				reservation.ecrire();
+				
+			}
+			reservationChambre.ecrire();
+			for(int y = 0; y < reservations.length; y++) {
+				if(reservations[y].getIdChambre() !=(reservationChambre.getIdChambre())) {
+					if (reservations[y].getDateDebut().before(reservationChambre.getDateFin()) && 
+						reservations[y].getDateFin().after(reservationChambre.getDateDebut())) {
+						stmt.executeQuery("INSERT INTO RESERVATION(idChambre,idClient,dateDebut,dateFin,nombrePlaces,booleenPaiementEffectue) "
+								+ "VALUES ("+ reservationChambre.getIdChambre() + "," + reservationChambre.getIdClient() + "," + ReservationChambre.dateToString(reservationChambre.getDateDebut()) + ","
+								+ ReservationChambre.dateToString(reservationChambre.getDateFin()) + "," + reservationChambre.getNbPlaces() + "," + reservationChambre.getPaiementEffectue());
+					}
+					else {
+						System.out.println("Cette chambre n'est pas disponible pour cette date!");
+					}
+				}
+				else {
+					System.out.println("Cette chambre n'est pas disponible");
+				}
+			}
+			result.close();
+			stmt.close();
+			connexion.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return reservationChambre.getIdChambre();
 	}
 	
 	public String payerChambre(int idReservation) {
