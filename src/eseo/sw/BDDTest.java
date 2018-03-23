@@ -8,15 +8,14 @@ public class BDDTest {
 
 	
 	public static void main(String[] args) throws ParseException {
-		String s  = "2018-10-15";
-		String s2 = "2018-10-20";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		String s  = "2018-10-19";
+		String s2 = "2018-10-25";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1 = sdf.parse(s);
 		Date date2 = sdf.parse(s2);
 		
 		GestionHotels hotels = new GestionHotels();
-		hotels.trouverChambre("Taudis");
-		ReservationChambre newReservation = new ReservationChambre(4,4,3,date1, date2,5,false);
+		ReservationChambre newReservation = new ReservationChambre(4,2,3,date2, date1,5,false);
 		hotels.reserverChambre(newReservation);
 	}
 }

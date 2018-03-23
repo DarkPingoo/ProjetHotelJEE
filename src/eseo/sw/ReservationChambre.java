@@ -1,7 +1,9 @@
 package eseo.sw;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class ReservationChambre {
@@ -93,16 +95,14 @@ public class ReservationChambre {
 							this.getPaiementEffectue()+","+")");
 	}
 	
-	public static String dateToString(Date date) throws ParseException {
-		String oldstring = "2011-01-18 00:00:00.0";
-		date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
-		String newString = new SimpleDateFormat("yyyy-MM-dd").format(date);
-		System.out.println(newString); // 2011-01-18
-		return newString;
+	public static String dateToString(Date date) throws ParseException { 
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+		String strDate = dateFormat.format(date);  
+		return strDate;
 	}
 	public static Date stringToDate(String string) throws ParseException {
 		string  = "2018-10-15";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date1 = sdf.parse(string);
 		return date1;
 	}
