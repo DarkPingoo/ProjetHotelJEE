@@ -1,11 +1,13 @@
 package eseo.sw;
 
+import java.util.ArrayList;
+
 import javax.jws.WebService;
 
 @WebService(name = "GestionHotelsSEI", targetNamespace = "http://sw.eseo/")
 public interface GestionHotelsSEI {
 
-	Chambre[] trouverChambre(String typeChambre);
+	ArrayList<Chambre> trouverChambre(String typeChambre);
 
 	int reserverChambre(ReservationChambre reservationChambre);
 

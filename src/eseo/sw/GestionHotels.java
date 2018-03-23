@@ -36,11 +36,9 @@ public class GestionHotels implements GestionHotelsSEI{
 		}
 	}
 
-	public Chambre[] trouverChambre(String typeChambre) {
+	public ArrayList<Chambre> trouverChambre(String typeChambre) {
 		initConnection();
-
-		Chambre[] chambres = new Chambre[50];
-		int i = 0;
+		ArrayList<Chambre> chambres = new ArrayList();
 		try {
 			stmt.executeQuery("select * from CHAMBRE where typeChambre = '"+typeChambre +"'");
 			result = stmt.getResultSet();
@@ -50,9 +48,7 @@ public class GestionHotels implements GestionHotelsSEI{
 						result.getInt("nombrePlaceLit"),
 						result.getInt("prixJournalier"),
 						result.getInt("etage"));
-				chambre.ecrire();
-				chambres[i] = chambre;
-				i++;
+				chambres.add(chambre);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -126,7 +122,6 @@ public class GestionHotels implements GestionHotelsSEI{
 
 	public String payerChambre(int idReservation) {
 		initConnection();
-
 		String message = "erreur";
 		try {
 			stmt.executeQuery("select booleenPaiementEffectue from RESERVATION where idReservation = '"+idReservation+"'");
@@ -140,15 +135,13 @@ public class GestionHotels implements GestionHotelsSEI{
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-	
+		}	
 		closeConnection();
 		return message;
 	}
 
 	public boolean annulerChambre(int idReservation) {
 		initConnection();
-
 		boolean feedback = false;
 		try {
 			int suppression = stmt.executeUpdate("delete from RESERVATION where idReservation='"+idReservation+"'");
@@ -162,7 +155,6 @@ public class GestionHotels implements GestionHotelsSEI{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		closeConnection();
 		return feedback;
 	}
