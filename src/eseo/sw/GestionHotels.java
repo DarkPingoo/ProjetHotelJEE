@@ -127,16 +127,16 @@ public class GestionHotels implements GestionHotelsSEI{
 	public String payerChambre(int idReservation) {
 		initConnection();
 
-		String message = "";
+		String message = "erreur";
 		try {
 			stmt.executeQuery("select booleenPaiementEffectue from RESERVATION where idReservation = '"+idReservation+"'");
 			result = stmt.getResultSet();
 			result.next();
 			if(result.getInt("booleenPaiementEffectue")==1) {
-				message = "La chambre a déja été payé !";
+				message = "oui";
 			} else {
 				stmt.executeUpdate("update RESERVATION set booleenPaiementEffectue=1 where idReservation='"+idReservation+"'");
-				message = "La chambre a bien été payé !";
+				message = "non";
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
