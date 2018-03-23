@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.jws.WebService;
 
@@ -56,50 +57,68 @@ public class GestionHotels implements GestionHotelsSEI{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 		closeConnection();
 		return chambres;
 	}
 
 	public int reserverChambre(ReservationChambre reservationChambre) {
 		initConnection();
-		ReservationChambre[] reservations = new ReservationChambre[50];
-		int i = 0;
-		try {
-			Statement stmt = connexion.createStatement();
-			stmt.executeQuery("select * from RESERVATION");
-			ResultSet result = stmt.getResultSet();
-			while (result.next()) {
-				ReservationChambre reservation = new ReservationChambre(result.getInt("idReservation"),
-																		result.getInt("idChambre"),
-																		result.getInt("idClient"),
-																		result.getDate("dateDebut"),
-																		result.getDate("dateFin"),
-																		result.getInt("nombrePlaces"),
-																		result.getBoolean("booleenPaiementEffectue"));
-				reservations[i] = reservation;
-				i++;
-				reservation.ecrire();	
-			}
-			reservationChambre.ecrire();
-			for(int y = 0; y < reservations.length; y++) {
-				if(reservations[y].getIdChambre() !=(reservationChambre.getIdChambre())) {
-					if (reservations[y].getDateDebut().before(reservationChambre.getDateFin()) && 
-						reservations[y].getDateFin().after(reservationChambre.getDateDebut())) {
-						stmt.executeQuery("INSERT INTO RESERVATION(idChambre,idClient,dateDebut,dateFin,nombrePlaces,booleenPaiementEffectue) "
-								+ "VALUES ("+ reservationChambre.getIdChambre() + "," + reservationChambre.getIdClient() + "," + ReservationChambre.dateToString(reservationChambre.getDateDebut()) + ","
-								+ ReservationChambre.dateToString(reservationChambre.getDateFin()) + "," + reservationChambre.getNbPlaces() + "," + reservationChambre.getPaiementEffectue());
+		ArrayList<ReservationChambre>  reservations = new ArrayList();
+		if(reservationChambre.getDateDebut().after(reservationChambre.getDateFin())) {
+			System.out.println("Resevation impossible, il y a une incohérence dans la date !");
+			return -1;
+		}
+		else {
+			try {
+				Statement stmt = connexion.createStatement();
+				stmt.executeQuery("select * from RESERVATION");
+				result = stmt.getResultSet();
+				while (result.next()) {
+					ReservationChambre reservation = new ReservationChambre(result.getInt("idReservation"),
+																			result.getInt("idChambre"),
+																			result.getInt("idClient"),
+																			result.getDate("dateDebut"),
+																			result.getDate("dateFin"),
+																			result.getInt("nombrePlaces"),
+																			result.getBoolean("booleenPaiementEffectue"));
+					reservations.add(reservation);
+					reservation.ecrire();	
+				}
+				reservationChambre.ecrire();
+				boolean reserver = false;
+				for(int y = 0; y < reservations.size(); y++) {
+					if(reservations.get(y).getIdChambre() !=(reservationChambre.getIdChambre())) {
+						if (reservations.get(y).getDateDebut().after(reservationChambre.getDateFin()) || 
+							reservations.get(y).getDateFin().before(reservationChambre.getDateDebut())) {
+							System.out.println("c'est okok!");
+							}
+						else {
+							reserver =true;
+						}
 					}
 					else {
-						System.out.println("Cette chambre n'est pas disponible pour cette date!");
+						if (reservations.get(y).getDateDebut().after(reservationChambre.getDateFin()) || 
+								reservations.get(y).getDateFin().before(reservationChambre.getDateDebut())) {
+							System.out.println(reservations.get(y).getDateDebut() +" et "+ reservationChambre.getDateFin());
+							System.out.println("c'est okokok");
+						}
+						else {
+							reserver =true;
+						}
 					}
 				}
-				else {
-					System.out.println("Cette chambre n'est pas disponible");
+				if (reserver == false) {
+					stmt.executeUpdate("INSERT INTO RESERVATION(idChambre,idClient,dateDebut,dateFin,nombrePlaces,booleenPaiementEffectue) "
+							+ "VALUES ("+ reservationChambre.getIdChambre() + "," + reservationChambre.getIdClient() + ",'" + ReservationChambre.dateToString(reservationChambre.getDateDebut()) + "','"
+							+ ReservationChambre.dateToString(reservationChambre.getDateFin()) + "'," + reservationChambre.getNbPlaces() + "," + reservationChambre.getPaiementEffectue()+")");
+					System.out.println("bravo la réservation à bien été enregistré.");
 				}
+				else {
+					System.out.println("La chambre"+reservationChambre.getIdChambre() +" n'est pas disponible pour la date "+ReservationChambre.dateToString(reservationChambre.getDateDebut())+" à "+ReservationChambre.dateToString(reservationChambre.getDateFin())+" !");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		closeConnection();
 		return reservationChambre.getIdChambre();
@@ -122,7 +141,7 @@ public class GestionHotels implements GestionHotelsSEI{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+	
 		closeConnection();
 		return message;
 	}
