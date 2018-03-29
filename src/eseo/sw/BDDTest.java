@@ -15,7 +15,7 @@ public class BDDTest {
 		Date date2 = sdf.parse(s2);
 		
 		GestionHotels hotels = new GestionHotels();
-		ReservationChambre newReservation = new ReservationChambre(4,2,3,date2, date1,5,false);
-		hotels.reserverChambre(newReservation);
+		//ReservationChambre newReservation = new ReservationChambre(4,2,3,date2, date1,5,false);
+		//hotels.reserverChambre(newReservation);
 	}
 }

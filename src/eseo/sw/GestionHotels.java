@@ -12,8 +12,9 @@ import java.util.Date;
 
 import javax.jws.WebService;
 
+
 @WebService(targetNamespace = "http://sw.eseo/", endpointInterface = "eseo.sw.GestionHotelsSEI", portName = "GestionHotelsPort", serviceName = "GestionHotelsService")
-public class GestionHotels implements GestionHotelsSEI{
+public class GestionHotels implements GestionHotelsSEI {
 
 	private Connection connexion = null;
 	private Statement stmt = null;
@@ -68,9 +69,6 @@ public class GestionHotels implements GestionHotelsSEI{
 		closeConnection();
 		return chambres;
 	}
-	
-	//if(typeChambre.toUpperCase().equals("TAUDIS") || typeChambre.toUpperCase().equals("AFFAIRE") || typeChambre.toUpperCase().equals("FAMILIALE") || typeChambre.toUpperCase().equals("SUITE ROYALE")) {	
-		
 	
 	
 	public int reserverChambre(ReservationChambre reservationChambre){

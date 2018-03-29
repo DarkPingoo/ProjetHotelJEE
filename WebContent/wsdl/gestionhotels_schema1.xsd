@@ -66,13 +66,7 @@
 
   <xs:complexType name="trouverChambre">
     <xs:sequence>
-      <xs:element minOccurs="0" name="arg0" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="trouverChambreResponse">
-    <xs:sequence>
-      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:chambre"/>
+      <xs:element minOccurs="0" name="arg0" type="tns:chambre"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -83,6 +77,12 @@
       <xs:element name="nbLits" type="xs:int"/>
       <xs:element name="prix" type="xs:int"/>
       <xs:element minOccurs="0" name="typeChambre" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="trouverChambreResponse">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:chambre"/>
     </xs:sequence>
   </xs:complexType>
 
