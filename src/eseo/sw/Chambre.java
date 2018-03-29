@@ -8,7 +8,7 @@ public class Chambre {
 	private int nbLits;
 	private int etage;
 
-	public Chambre(int idChambre, String typeChambre, int prix, int nbLits, int etage) {
+	public Chambre(int idChambre, String typeChambre, int nbLits, int prix, int etage) {
 		this.idChambre = idChambre;
 		this.typeChambre = typeChambre;
 		this.prix = prix;
@@ -62,8 +62,8 @@ public class Chambre {
 	public void ecrire() {
 		System.out.println("Chambre("+this.getIdChambre()+","+
 							this.getTypeChambre()+","+
-							this.getNbLits()+","+
 							this.getPrix()+","+
+							this.getNbLits()+","+
 							this.getEtage()+")");
 	}
 }
