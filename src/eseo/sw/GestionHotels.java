@@ -69,11 +69,19 @@ public class GestionHotels implements GestionHotelsSEI {
 		closeConnection();
 		return chambres;
 	}
-	
-	
+
+	/**
+	 * Reserve une chambre
+	 * @param reservationChambre reservation
+	 * @return Identifiant de reservation si >0, sinon code d'erreur
+	 * -1 : Incohérence de date
+	 * -2 : Chambre inexistante
+	 * -3 : Chambre déjà réservée
+	 */
 	public int reserverChambre(ReservationChambre reservationChambre){
 		initConnection();
 		Chambre chambre = null;
+		int idReservation = -100;
 		ArrayList<ReservationChambre> reservations = new ArrayList();
 		if(reservationChambre.getDateDebut().after(reservationChambre.getDateFin())) {
 			System.out.println("Reservation impossible, il y a une incohérence dans la date !");
@@ -91,7 +99,7 @@ public class GestionHotels implements GestionHotelsSEI {
 			}
 			if(chambre == null) {
 				System.out.println("La chambre n'existe pas");
-				return -1;
+				return -2;
 			} else {
 				System.out.println("la chambre existe !");
 				stmt.executeQuery("select * from RESERVATION where idChambre="+reservationChambre.getIdChambre());
@@ -118,21 +126,22 @@ public class GestionHotels implements GestionHotelsSEI {
 				}
 			}
 			if (reserver == false) {
-				stmt.executeUpdate("INSERT INTO RESERVATION(idChambre,idClient,dateDebut,dateFin,nombrePlaces,booleenPaiementEffectue) "
+				stmt.execute("INSERT INTO RESERVATION(idChambre,idClient,dateDebut,dateFin,nombrePlaces,booleenPaiementEffectue) "
 						+ "VALUES ("+ reservationChambre.getIdChambre() + "," + reservationChambre.getIdClient() + ",'" + ReservationChambre.dateToString(reservationChambre.getDateDebut()) + "','"
 						+ ReservationChambre.dateToString(reservationChambre.getDateFin()) + "'," + reservationChambre.getNbPlaces() + "," + reservationChambre.getPaiementEffectue()+")");
 				System.out.println("bravo la réservation à bien été enregistré.");
+				idReservation = stmt.getGeneratedKeys().getInt(1);
 			}
 			else {
 				System.out.println("la réservation n'a pas pu etre effectuée !");
-				return -1;
+				return -3;
 			}	
 		
 		} catch (SQLException | ParseException e) {
 			e.printStackTrace();
 		}
 		closeConnection();
-		return 0;
+		return idReservation;
 	}
 	
 	private boolean reservationExiste(int idReservation) {
