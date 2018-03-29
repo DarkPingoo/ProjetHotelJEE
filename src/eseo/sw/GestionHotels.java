@@ -38,14 +38,18 @@ public class GestionHotels implements GestionHotelsSEI{
 		}
 	}
 
-	public ArrayList<Chambre> trouverChambre(String typeChambre) {
+	public ArrayList<Chambre> trouverChambre(Chambre chambreC) {
 		initConnection();
 		ArrayList<Chambre> chambres = new ArrayList<Chambre>();
 		int i = 0;
+		System.out.println("TEST");
+
 		try {
-			stmt.executeQuery("select * from CHAMBRE where typeChambre = '"+typeChambre +"'");
+			stmt.executeQuery("select * from CHAMBRE where typeChambre = '"+chambreC.getTypeChambre() +"' AND nombrePlaceLit >= " + chambreC.getNbLits() + " ORDER BY nombrePlaceLit ASC");
 			result = stmt.getResultSet();
 			while (result.next()) {
+				System.out.println("Result");
+
 				Chambre chambre = new Chambre(result.getInt("idChambre"),
 						result.getString("typeChambre"),
 						result.getInt("nombrePlaceLit"),
