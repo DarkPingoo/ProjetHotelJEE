@@ -128,9 +128,13 @@ public class GestionHotels implements GestionHotelsSEI {
 			if (reserver == false) {
 				stmt.execute("INSERT INTO RESERVATION(idChambre,idClient,dateDebut,dateFin,nombrePlaces,booleenPaiementEffectue) "
 						+ "VALUES ("+ reservationChambre.getIdChambre() + "," + reservationChambre.getIdClient() + ",'" + ReservationChambre.dateToString(reservationChambre.getDateDebut()) + "','"
-						+ ReservationChambre.dateToString(reservationChambre.getDateFin()) + "'," + reservationChambre.getNbPlaces() + "," + reservationChambre.getPaiementEffectue()+")");
+						+ ReservationChambre.dateToString(reservationChambre.getDateFin()) + "'," + reservationChambre.getNbPlaces() + "," + reservationChambre.getPaiementEffectue()+")",
+						Statement.RETURN_GENERATED_KEYS);
 				System.out.println("bravo la réservation à bien été enregistré.");
-				idReservation = stmt.getGeneratedKeys().getInt(1);
+				ResultSet rs = stmt.getGeneratedKeys();
+				if(rs.next()) {
+					idReservation = rs.getBigDecimal(1).intValue();
+				}
 			}
 			else {
 				System.out.println("la réservation n'a pas pu etre effectuée !");
