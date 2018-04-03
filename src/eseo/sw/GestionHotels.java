@@ -135,7 +135,7 @@ public class GestionHotels implements GestionHotelsSEI {
 	
 	private boolean reservationExiste(int idReservation) {
 		initConnection();
-		ArrayList<Integer> idReservations = new ArrayList();
+		ArrayList<Integer> idReservations = new ArrayList<Integer>();
 		boolean idExiste = false;
 		try {
 			stmt.executeQuery("select idReservation from RESERVATION");
