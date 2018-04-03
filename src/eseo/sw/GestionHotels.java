@@ -42,7 +42,6 @@ public class GestionHotels implements GestionHotelsSEI {
 	public ArrayList<Chambre> trouverChambre(Chambre chambreC) {
 		initConnection();
 		ArrayList<Chambre> chambres = new ArrayList<Chambre>();
-		int i = 0;
 		System.out.println("TEST");
 
 		try {
@@ -58,7 +57,6 @@ public class GestionHotels implements GestionHotelsSEI {
 						result.getInt("etage"));
 				chambre.ecrire();
 				chambres.add(chambre);
-				i++;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -132,7 +130,7 @@ public class GestionHotels implements GestionHotelsSEI {
 			e.printStackTrace();
 		}
 		closeConnection();
-		return 0;
+		return reservationChambre.getIdReservation();
 	}
 	
 	private boolean reservationExiste(int idReservation) {
