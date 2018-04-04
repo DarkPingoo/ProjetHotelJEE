@@ -153,7 +153,7 @@ public class GestionHotelsTest {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			Connection connexion = Database.getInstance().createConnection();
 			Statement stmt = connexion.createStatement();
-			stmt.executeQuery("INSERT INTO RESERVATION VALUES(1,1,2018-06-03,2018-06-05,2,0");
+			stmt.executeQuery("INSERT INTO RESERVATION(idChambre, idClient, dateDebut, dateFin, nombrePlaces, booleenPaiementEffectue) VALUES(1,1,'2018-06-03','2018-06-05',2,0)");
 			ResultSet result = stmt.getResultSet();
 			result.next();
 			int idReservation = result.getInt("idReservation");
@@ -170,7 +170,7 @@ public class GestionHotelsTest {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			Connection connexion = Database.getInstance().createConnection();
 			Statement stmt = connexion.createStatement();
-			stmt.executeUpdate("INSERT INTO RESERVATION VALUES(1,1,2018-01-01,2018-07-05,2,0");
+			stmt.executeUpdate("INSERT INTO RESERVATION(idChambre, idClient, dateDebut, dateFin, nombrePlaces, booleenPaiementEffectue) VALUES(1,1,2018-01-01,2018-07-05,2,0)");
 			ResultSet result = stmt.getResultSet();
 			result.next();
 			int idReservation = result.getInt("idReservation");

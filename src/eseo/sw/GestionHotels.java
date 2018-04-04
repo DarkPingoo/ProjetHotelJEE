@@ -67,11 +67,19 @@ public class GestionHotels implements GestionHotelsSEI {
 		closeConnection();
 		return chambres;
 	}
-	
-	
+
+	/**
+	 * Reserve une chambre
+	 * @param reservationChambre reservation
+	 * @return Identifiant de reservation si >0, sinon code d'erreur
+	 * -1 : Incohérence de date
+	 * -2 : Chambre inexistante
+	 * -3 : Chambre déjà réservée
+	 */
 	public int reserverChambre(ReservationChambre reservationChambre){
 		initConnection();
 		Chambre chambre = null;
+		int idReservation = -100;
 		ArrayList<ReservationChambre> reservations = new ArrayList();
 		if(reservationChambre.getDateDebut().after(reservationChambre.getDateFin())) {
 			System.out.println("Reservation impossible, il y a une incohérence dans la date !");
@@ -89,7 +97,7 @@ public class GestionHotels implements GestionHotelsSEI {
 			}
 			if(chambre == null) {
 				System.out.println("La chambre n'existe pas");
-				return -1;
+				return -2;
 			} else {
 				System.out.println("la chambre existe !");
 				stmt.executeQuery("select * from RESERVATION where idChambre="+reservationChambre.getIdChambre());
@@ -120,17 +128,21 @@ public class GestionHotels implements GestionHotelsSEI {
 						+ "VALUES ("+ reservationChambre.getIdChambre() + "," + reservationChambre.getIdClient() + ",'" + ReservationChambre.dateToString(reservationChambre.getDateDebut()) + "','"
 						+ ReservationChambre.dateToString(reservationChambre.getDateFin()) + "'," + reservationChambre.getNbPlaces() + "," + reservationChambre.getPaiementEffectue()+")");
 				System.out.println("bravo la réservation à bien été enregistré.");
+				ResultSet rs = stmt.getGeneratedKeys();
+				if(rs.next()) {
+					idReservation = rs.getBigDecimal(1).intValue();
+				}
 			}
 			else {
 				System.out.println("la réservation n'a pas pu etre effectuée !");
-				return -1;
+				return -3;
 			}	
 		
 		} catch (SQLException | ParseException e) {
 			e.printStackTrace();
 		}
 		closeConnection();
-		return reservationChambre.getIdReservation();
+		return idReservation;
 	}
 	
 	private boolean reservationExiste(int idReservation) {
