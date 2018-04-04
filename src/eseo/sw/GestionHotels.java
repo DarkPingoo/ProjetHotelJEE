@@ -80,7 +80,7 @@ public class GestionHotels implements GestionHotelsSEI {
 		initConnection();
 		Chambre chambre = null;
 		int idReservation = -100;
-		ArrayList<ReservationChambre> reservations = new ArrayList();
+		ArrayList<ReservationChambre> reservations = new ArrayList<ReservationChambre>();
 		if(reservationChambre.getDateDebut().after(reservationChambre.getDateFin())) {
 			System.out.println("Reservation impossible, il y a une incohérence dans la date !");
 			return -1;

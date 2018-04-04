@@ -101,19 +101,29 @@ public class GestionHotelsTest {
 	}
 	
 	
+	
+	
 	@Test
 	public void testReserverChambre1() throws ParseException {
 		ReservationChambre reservation = new ReservationChambre(1,1,2,ReservationChambre.stringToDate("2018-11-03"),ReservationChambre.stringToDate("2018-11-07"),2,false);
 		int reserverChambre = hotels.reserverChambre(reservation);
-		assertEquals("La chambre n'est pas disponible :",-1, reserverChambre);
+		assertEquals("La chambre n'est pas disponible :",-3, reserverChambre);
 	}
 	
 	@Test
 	public void testReserverChambre2() throws ParseException {
 		ReservationChambre reservation = new ReservationChambre(1,45,2,ReservationChambre.stringToDate("2018-11-03"),ReservationChambre.stringToDate("2018-11-07"),2,false);
 		int reserverChambre = hotels.reserverChambre(reservation);
-		assertEquals("La chambre n'existe pas :",-1, reserverChambre);
+		assertEquals("La chambre n'existe pas :",-2, reserverChambre);
 	}
+	
+	@Test
+	public void testReserverChambre3() throws ParseException {
+		ReservationChambre reservation = new ReservationChambre(1,1,2,ReservationChambre.stringToDate("2018-01-07"),ReservationChambre.stringToDate("2018-01-03"),2,false);
+		int reserverChambre = hotels.reserverChambre(reservation);
+		assertEquals("Incohérence dans la date :",-1, reserverChambre);
+	}
+	
 
 	@Test
 	public void testPayerChambre1() {
@@ -153,7 +163,7 @@ public class GestionHotelsTest {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			Connection connexion = Database.getInstance().createConnection();
 			Statement stmt = connexion.createStatement();
-			stmt.executeQuery("INSERT INTO RESERVATION(idChambre, idClient, dateDebut, dateFin, nombrePlaces, booleenPaiementEffectue) VALUES(1,1,'2018-06-03','2018-06-05',2,0)");
+			stmt.executeQuery("INSERT INTO RESERVATION VALUES(1,1,2018-06-03,2018-06-05,2,0");
 			ResultSet result = stmt.getResultSet();
 			result.next();
 			int idReservation = result.getInt("idReservation");
@@ -170,7 +180,7 @@ public class GestionHotelsTest {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
 			Connection connexion = Database.getInstance().createConnection();
 			Statement stmt = connexion.createStatement();
-			stmt.executeUpdate("INSERT INTO RESERVATION(idChambre, idClient, dateDebut, dateFin, nombrePlaces, booleenPaiementEffectue) VALUES(1,1,2018-01-01,2018-07-05,2,0)");
+			stmt.executeUpdate("INSERT INTO RESERVATION VALUES(1,1,2018-01-01,2018-07-05,2,0");
 			ResultSet result = stmt.getResultSet();
 			result.next();
 			int idReservation = result.getInt("idReservation");
